@@ -339,7 +339,7 @@ export default class AsciiMathParser {
     
     literal(token) {
         if(token) {
-            return {tex: token.token, pos: token.pos, end: token.end};
+            return {tex: token.token, pos: token.pos, end: token.end, ttype: 'literal'};
         }
     }
 
@@ -421,6 +421,10 @@ export default class AsciiMathParser {
                 const lr = this.leftright_bracket(pos);
                 if(lr) {
                     expr = lr;
+                    const ss = this.subsup(lr.end);
+                    if(ss) {
+                        expr = {tex: `${expr.tex}${ss.tex}`, pos: pos, end: ss.end, ttype: 'expression'}
+                    }
                 }
             }
             if(expr) {
@@ -449,7 +453,7 @@ export default class AsciiMathParser {
         const m = re.exec(this.source(pos));
         if(m) {
             const token = m[0];
-            return {token: token, pos: pos, match: m, end: pos+token.length};
+            return {token: token, pos: pos, match: m, end: pos+token.length, ttype: 'regex'};
         }
     }
     
@@ -458,7 +462,7 @@ export default class AsciiMathParser {
     exact(str, pos) {
         pos = this.strip_space(pos);
         if(this.source(pos).slice(0, str.length) == str) {
-            return {token: str, pos: pos, end: pos+str.length};
+            return {token: str, pos: pos, end: pos+str.length, ttype: 'exact'};
         }
     }
 
@@ -485,7 +489,7 @@ export default class AsciiMathParser {
             exprs.push(expr);
             end = expr.end;
         }
-        return {tex: tex, pos: pos, end: end, exprs: exprs};
+        return {tex: tex, pos: pos, end: end, exprs: exprs, ttype: 'expression_list'};
     }
     
     // E ::= IE | I/I                       Expression
@@ -499,7 +503,7 @@ export default class AsciiMathParser {
             for(let c of this.non_constant_symbols) {
                 const m = this.exact(c,pos);
                 if(m) {
-                    return {tex: c, pos: pos, end: m.end};
+                    return {tex: c, pos: pos, end: m.end, ttype: 'expression'};
                 }
             }
             return;
@@ -509,7 +513,7 @@ export default class AsciiMathParser {
         }
         const second = this.expression(first.end);
         if(second) {
-            return {tex: first.tex+' '+second.tex, pos: first.pos, end: second.end};
+            return {tex: first.tex+' '+second.tex, pos: first.pos, end: second.end, ttype: 'expression'};
         } else {
             return first;
         }
@@ -520,9 +524,9 @@ export default class AsciiMathParser {
         if(dash && !this.other_constant(pos)) {
             const s = this.expression(dash.end);
             if(s) {
-                return {tex: `- ${s.tex}`, pos: pos, end: s.end}
+                return {tex: `- ${s.tex}`, pos: pos, end: s.end, ttype: 'negative_expression'}
             } else {
-                return {tex: '-', pos: pos, end: dash.end};
+                return {tex: '-', pos: pos, end: dash.end, ttype: 'constant'};
             }
         }
     }
@@ -538,10 +542,10 @@ export default class AsciiMathParser {
             if(second) {
                 const ufirst = this.unbracket(first);
                 const usecond = this.unbracket(second);
-                return {tex: `\\frac{${ufirst.tex}}{${usecond.tex}}`, pos: first.pos, end: second.end};
+                return {tex: `\\frac{${ufirst.tex}}{${usecond.tex}}`, pos: first.pos, end: second.end, ttype: 'fraction'};
             } else {
                 const ufirst = this.unbracket(first);
-                return {tex: `\\frac{${ufirst.tex}}{}`, pos: first.pos, end: frac.end};
+                return {tex: `\\frac{${ufirst.tex}}{}`, pos: first.pos, end: frac.end, ttype: 'fraction'};
             }
         } else {
             return first;
@@ -556,7 +560,7 @@ export default class AsciiMathParser {
         }
         const ss = this.subsup(first.end);
         if(ss) {
-            return {tex: `${first.tex}${ss.tex}`, pos:pos, end:ss.end};
+            return {tex: `${first.tex}${ss.tex}`, pos:pos, end:ss.end, ttype: 'intermediate'};
         } else {
             return first;
         }
@@ -588,7 +592,7 @@ export default class AsciiMathParser {
             }
         }
         if(sub || sup) {
-            return {tex: tex, pos: pos, end: end};
+            return {tex: tex, pos: pos, end: end, ttype: 'subsup'};
         }
     }
 
@@ -602,9 +606,9 @@ export default class AsciiMathParser {
         if(dash && !this.other_constant(pos)) {
             const s = this.simple(dash.end);
             if(s) {
-                return {tex: `- ${s.tex}`, pos: pos, end: s.end}
+                return {tex: `- ${s.tex}`, pos: pos, end: s.end, ttype: 'negative_simple'}
             } else {
-                return {tex: '-', pos: pos, end: dash.end};
+                return {tex: '-', pos: pos, end: dash.end, ttype: 'constant'};
             }
         }
     }
@@ -655,7 +659,7 @@ export default class AsciiMathParser {
             return;
         }
         const contents = rows.map(r=>r.exprs.map(x=>x.tex).join(' & ')).join(' \\\\ ');
-        return {tex: `\\left ${left.tex} \\begin{matrix} ${contents} \\end{matrix} \\right ${right.tex}`, pos: pos, end: right.end};
+        return {tex: `\\left ${left.tex} \\begin{matrix} ${contents} \\end{matrix} \\right ${right.tex}`, pos: pos, end: right.end, ttype: 'matrix'};
     }
     
     bracketed_expression(pos = 0) {
@@ -665,18 +669,18 @@ export default class AsciiMathParser {
             if(middle) {
                 const r = this.right_bracket(middle.end);
                 if(r) {
-                    return {tex: `\\left${l.tex} ${middle.tex} \\right ${r.tex}`, pos: pos, end: r.end, bracket: true, left: l, right: r, middle: middle};
+                    return {tex: `\\left${l.tex} ${middle.tex} \\right ${r.tex}`, pos: pos, end: r.end, bracket: true, left: l, right: r, middle: middle, ttype: 'bracket'};
                 } else if(this.eof(middle.end)) {
-                    return {tex: `\\left${l.tex} ${middle.tex} \\right.`, pos: pos, end: middle.end};
+                    return {tex: `\\left${l.tex} ${middle.tex} \\right.`, pos: pos, end: middle.end, ttype: 'bracket'};
                 } else {
-                    return {tex: `${l.tex} ${middle.tex}`, pos: pos, end: middle.end};
+                    return {tex: `${l.tex} ${middle.tex}`, pos: pos, end: middle.end, ttype: 'expression'};
                 }
             } else {
                 const r = this.right_bracket(l.end);
                 if(r) {
-                    return {tex: `\\left ${l.tex} \\right ${r.tex}`, pos: pos, end: r.end, bracket: true, left: l, right: r, middle: undefined};
+                    return {tex: `\\left ${l.tex} \\right ${r.tex}`, pos: pos, end: r.end, bracket: true, left: l, right: r, middle: undefined, ttype: 'bracket'};
                 } else {
-                    return {tex: l.tex, pos: pos, end: l.end};
+                    return {tex: l.tex, pos: pos, end: l.end, ttype: 'constant'};
                 }
             }
         }
@@ -689,9 +693,7 @@ export default class AsciiMathParser {
             if(middle) {
                 const right = this.leftright_bracket(middle.end, 'right');
                 if(right) {
-                    return {tex: `\\left ${left.tex} ${middle.tex} \\right ${right.tex}`, pos: pos, end: right.end, bracket: true, left: left, right: right, middle: middle};
-                } else {
-                    return {tex: `\\left ${left.tex} ${middle.tex} \\right.`, pos: pos, end: middle.end};
+                    return {tex: `\\left ${left.tex} ${middle.tex} \\right ${right.tex}`, pos: pos, end: right.end, bracket: true, left: left, right: right, middle: middle, ttype: 'bracket'};
                 }
             }
         }
@@ -702,7 +704,7 @@ export default class AsciiMathParser {
         for(let bracket of this.right_brackets) {
             const m = this.exact(bracket.asciimath,pos);
             if(m) {
-                return {tex: bracket.tex, pos: pos, end: m.end, asciimath: bracket.asciimath, def: bracket};
+                return {tex: bracket.tex, pos: pos, end: m.end, asciimath: bracket.asciimath, def: bracket, ttype: 'right_bracket'};
             }
         }
     }
@@ -712,7 +714,7 @@ export default class AsciiMathParser {
         for(let bracket of this.left_brackets) {
             const m = this.exact(bracket.asciimath,pos);
             if(m) {
-                return {tex: bracket.tex, pos: pos, end: m.end, asciimath: bracket.asciimath};
+                return {tex: bracket.tex, pos: pos, end: m.end, asciimath: bracket.asciimath, ttype: 'left_brackets'};
             }
         }
     }
@@ -721,7 +723,7 @@ export default class AsciiMathParser {
         for(let lr of this.leftright_brackets) {
             const b = this.exact(lr.asciimath, pos);
             if(b) {
-                return {tex: position=='left' ? lr.left_tex : position=='right' ? lr.right_tex : lr.free_tex, pos: pos, end: b.end};
+                return {tex: position=='left' ? lr.left_tex : position=='right' ? lr.right_tex : lr.free_tex, pos: pos, end: b.end, ttype: 'leftright_bracket'};
             }
         }
     }
@@ -730,12 +732,12 @@ export default class AsciiMathParser {
         const quoted = this.match(/^"([^"]*)"/,pos);
         if(quoted) {
             const text = this.escape_text(quoted.match[1]);
-            return {tex: `\\text{${text}}`, pos: pos, end: quoted.end};
+            return {tex: `\\text{${text}}`, pos: pos, end: quoted.end, ttype: 'text'};
         }
         const textfn = this.match(/^(?:mbox|text)\s*(\([^)]*\)?|\{[^}]*\}?|\[[^\]]*\]?)/,pos);
         if(textfn) {
             const text = this.escape_text(textfn.match[1].slice(1,textfn.match[1].length-1));
-            return {tex: `\\text{${text}}`, pos: pos, end: textfn.end};
+            return {tex: `\\text{${text}}`, pos: pos, end: textfn.end, ttype: 'text'};
         }
     }
 
@@ -750,12 +752,12 @@ export default class AsciiMathParser {
                     const atex = binary.rawfirst ? a.middle_asciimath : a.tex;
                     const b = this.unbracket(this.simple(a.end));
                     if(b) {
-                        return {tex: `${binary.tex}${lb1}${atex}${rb1}{${b.tex}}`, pos: pos, end: b.end};
+                        return {tex: `${binary.tex}${lb1}${atex}${rb1}{${b.tex}}`, pos: pos, end: b.end, ttype: 'binary'};
                     } else {
-                        return {tex: `${binary.tex}${lb1}${atex}${rb1}{}`, pos: pos, end: a.end};
+                        return {tex: `${binary.tex}${lb1}${atex}${rb1}{}`, pos: pos, end: a.end, ttype: 'binary'};
                     }
                 } else {
-                    return {tex: `${binary.tex}${lb1}${rb1}{}`, pos: pos, end: m.end};
+                    return {tex: `${binary.tex}${lb1}${rb1}{}`, pos: pos, end: m.end, ttype: 'binary'};
                 }
             }
         }
@@ -775,15 +777,15 @@ export default class AsciiMathParser {
                 if(u.rewriteleftright) {
                     const [left,right] = u.rewriteleftright;
                     if(arg) {
-                        return {tex: `\\left ${left} ${argtex} \\right ${right} ${sstex}`, pos: pos, end: arg.end};
+                        return {tex: `\\left ${left} ${argtex} \\right ${right} ${sstex}`, pos: pos, end: arg.end, ttype: 'unary'};
                     } else {
-                        return {tex: `\\left ${left} \\right ${right} ${sstex}`, pos: pos, end: m.end};
+                        return {tex: `\\left ${left} \\right ${right} ${sstex}`, pos: pos, end: m.end, ttype: 'unary'};
                     }
                 } else {
                     if(arg) {
-                        return {tex: `${u.tex}${sstex}{${argtex}}`, pos: pos, end: arg.end};
+                        return {tex: `${u.tex}${sstex}{${argtex}}`, pos: pos, end: arg.end, ttype: 'unary'};
                     } else {
-                        return {tex: `${u.tex}${sstex}{}`, pos: pos, end: m.end};
+                        return {tex: `${u.tex}${sstex}{}`, pos: pos, end: m.end, ttype: 'unary'};
                     }
                 }
             }
@@ -806,7 +808,7 @@ export default class AsciiMathParser {
         const re_greek = new RegExp('^('+this.greek_letters.join('|')+')');
         const m = this.match(re_greek, pos);
         if(m) {
-            return {tex: '\\'+m.token, pos: pos, end: m.end};
+            return {tex: '\\'+m.token, pos: pos, end: m.end, ttype: 'greek'};
         }
     }
     
@@ -819,7 +821,7 @@ export default class AsciiMathParser {
         for(let sym of this.constants) {
             let m = this.exact(sym.asciimath, pos);
             if(m) {
-                return {tex: `${sym.tex}`, pos: m.pos, end: m.end};
+                return {tex: `${sym.tex}`, pos: m.pos, end: m.end, ttype: 'other_constant'};
             }
         }
     }
@@ -836,7 +838,7 @@ export default class AsciiMathParser {
             }
             const spos = this.strip_space(pos);
             const symbol = this.source(spos).slice(0,1);
-            return {tex: symbol, pos: pos, end: spos+1};
+            return {tex: symbol, pos: pos, end: spos+1, ttype: 'arbitrary_constant'};
         }
     }
 }
