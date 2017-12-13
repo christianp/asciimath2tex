@@ -2081,6 +2081,11 @@ const unittests = [
         "input": "lim_(x rarr 2^-) f(x)",
         "tex": "\\lim_{x \\rightarrow 2^{-}} f{\\left( x \\right )}",
         "mathml": "<munder><mo>lim</mo><mrow><mi>x</mi><mo>→</mo><msup><mn>2</mn><mo>-</mo></msup></mrow></munder><mrow><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow>"
+    },
+    {
+        "input": "|(x,1),(2,3)|",
+        "tex": "\\left \\lvert \\begin{matrix} x & 1 \\\\ 2 & 3 \\end{matrix} \\right \\rvert",
+        "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow><mo>|</mo><mtable rowspacing=\"4pt\" columnspacing=\"1em\"><mtr><mtd><mi>x</mi></mtd><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd><mtd><mn>3</mn></mtd></mtr></mtable><mo>|</mo></mrow></math>"
     }
 ]
 
