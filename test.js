@@ -1769,22 +1769,22 @@ const unittests = [
     },
     {
         "input": "[(2,3),(4,5)]",
-        "tex": "\\left[ \\left( 2 , 3 \\right ) , \\left( 4 , 5 \\right ) \\right ]",
+        "tex": "\\left [ \\begin{matrix} 2 & 3 \\\\ 4 & 5 \\end{matrix} \\right ]",
         "mathml": "<mrow><mo>[</mo><mtable><mtr><mtd><mn>2</mn></mtd><mtd><mn>3</mn></mtd></mtr><mtr><mtd><mn>4</mn></mtd><mtd><mn>5</mn></mtd></mtr></mtable><mo>]</mo></mrow>"
     },
     {
         "input": "[(2,3,4,5)]",
-        "tex": "\\left[ \\left( 2 , 3 , 4 , 5 \\right ) \\right ]",
+        "tex": "\\left [ \\begin{matrix} 2 & 3 & 4 & 5 \\end{matrix} \\right ]",
         "mathml": "<mrow><mo>[</mo><mtable><mtr><mtd><mn>2</mn></mtd><mtd><mn>3</mn></mtd><mtd><mn>4</mn></mtd><mtd><mn>5</mn></mtd></mtr></mtable><mo>]</mo></mrow>"
     },
     {
         "input": "((1),(2))",
-        "tex": "\\left( \\left( 1 \\right ) , \\left( 2 \\right ) \\right )",
+        "tex": "\\left ( \\begin{matrix} 1 \\\\ 2 \\end{matrix} \\right )",
         "mathml": "<mrow><mo>(</mo><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr></mtable><mo>)</mo></mrow>"
     },
     {
         "input": "{(1,if,x ge 3),(2,if,x gt 3):}",
-        "tex": "\\left\\lbrace \\left( 1 , \\quad\\text{if}\\quad , x \\ge 3 \\right ) , \\left( 2 , \\quad\\text{if}\\quad , x \\gt 3 \\right ) \\right .",
+        "tex": "\\left \\lbrace \\begin{matrix} 1 & \\quad\\text{if}\\quad & x \\ge 3 \\\\ 2 & \\quad\\text{if}\\quad & x \\gt 3 \\end{matrix} \\right .",
         "mathml": "<mrow><mo>{</mo><mtable columnalign=\"left\"><mtr><mtd><mn>1</mn></mtd><mtd><mrow><mspace width=\"1ex\"></mspace><mo>if</mo><mspace width=\"1ex\"></mspace></mrow></mtd><mtd><mi>x</mi><mo>≥</mo><mn>3</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd><mtd><mrow><mspace width=\"1ex\"></mspace><mo>if</mo><mspace width=\"1ex\"></mspace></mrow></mtd><mtd><mi>x</mi><mo>&gt;</mo><mn>3</mn></mtd></mtr></mtable></mrow>"
     },
     {

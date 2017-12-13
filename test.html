@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.js"></script>
-        <script src="index.js" type="module"></script>
+        <script src="test.js" type="module"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css"></link>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=MML_CHTML"></script>
         <style type="text/css">
@@ -26,27 +26,40 @@
             #asciimath {
                 width: 100%;
             }
+
+            section ~ section {
+                margin-top: 3em;
+                padding-top: 2em;
+                border-top: 1px solid #ccc;
+            }
         </style>
         
     </head>
     <body>
-        <input id="asciimath">
-        <pre id="tex"></pre>
-        <p id="display"></p>
-        <button type="button" id="run-tests">Run tests</button>
-        <table id="tests">
-            <thead>
-                <tr>
-                    <th>Input</th>
-                    <th>Expected</th>
-                    <th>Output</th>
-                    <th>KaTeX</th>
-                    <th>MathML</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <section>
+            <label>AsciiMath: <input id="asciimath"></label>
+            <p>TeX:<pre id="tex"></pre></p>
+            <p>KaTeX rendering:</p>
+            <p id="display"></p>
+        </section>
 
+        <section>
+            <p>These tests come from <a href="https://github.com/asciimath/asciimathml/blob/master/test/unittests.js">https://github.com/asciimath/asciimathml/blob/master/test/unittests.js</a>.</p>
+            <p>They confirm that the AsciiMath is parsed correctly and rendered using KaTeX, and then should be compared visually with MathJax's rendering of the expected MathML.</p>
+            <button type="button" id="run-tests">Run tests</button>
+            <table id="tests">
+                <thead>
+                    <tr>
+                        <th>Input</th>
+                        <th>Expected</th>
+                        <th>Output</th>
+                        <th>KaTeX</th>
+                        <th>MathML</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </section>
     </body>
 </html>

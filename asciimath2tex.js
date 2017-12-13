@@ -408,7 +408,7 @@ export default class AsciiMathParser {
         let pos = 0;
         let tex = '';
         while(!this.eof(pos)) {
-            let expr = this.expression(pos);
+            let expr = this.expression_list(pos);
             if(!expr) {
                 const rb = this.right_bracket(pos);
                 if(rb) {
@@ -460,6 +460,32 @@ export default class AsciiMathParser {
         if(this.source(pos).slice(0, str.length) == str) {
             return {token: str, pos: pos, end: pos+str.length};
         }
+    }
+
+    expression_list(pos = 0) {
+        let expr = this.expression(pos);
+        if(!expr) {
+            return;
+        }
+        let end = expr.end;
+        let tex = expr.tex;
+        let exprs = [expr];
+        while(!this.eof(end)) {
+            const comma = this.exact(",",end);
+            if(!comma) {
+                break;
+            }
+            tex += ' ,';
+            end = comma.end;
+            expr = this.expression(end);
+            if(!expr) {
+                break;
+            }
+            tex += ' '+expr.tex;
+            exprs.push(expr);
+            end = expr.end;
+        }
+        return {tex: tex, pos: pos, end: end, exprs: exprs};
     }
     
     // E ::= IE | I/I                       Expression
@@ -568,7 +594,7 @@ export default class AsciiMathParser {
 
     // S ::= v | lEr | uS | bSS             Simple expression
     simple(pos = 0) {
-        return this.longest([this.bracketed_expression(pos), this.binary(pos), this.constant(pos), this.text(pos), this.unary(pos), this.negative_simple(pos)]);
+        return this.longest([this.matrix(pos), this.bracketed_expression(pos), this.binary(pos), this.constant(pos), this.text(pos), this.unary(pos), this.negative_simple(pos)]);
     }
 
     negative_simple(pos = 0) {
@@ -582,11 +608,60 @@ export default class AsciiMathParser {
             }
         }
     }
+
+    // matrix: leftbracket "(" expr ")" ("," "(" expr ")")* rightbracket 
+    // each row must have the same number of elements
+    matrix(pos = 0) {
+        const left = this.left_bracket(pos);
+        if(!left) {
+            return;
+        }
+        let rows = [];
+        let end = left.end;
+        let row_length = undefined;
+        while(!this.eof(end) && !this.right_bracket(end)) {
+            if(rows.length) {
+                const comma = this.exact(",",end);
+                if(!comma) {
+                    return;
+                }
+                end = comma.end;
+            }
+            const lb = this.match(/^[(\[]/,end);
+            if(!lb) {
+                return;
+            }
+            const expr = this.expression_list(lb.end);
+            if(!expr) {
+                return;
+            }
+            if(row_length===undefined) {
+                row_length = expr.exprs.length;
+            } else if(expr.exprs.length!=row_length) {
+                return;
+            }
+            const rb = this.match(/^[)\]]/,expr.end);
+            if(!rb) {
+                return;
+            }
+            rows.push(expr);
+            end = rb.end;
+        }
+        if(row_length===undefined || (row_length<=1 && rows.length<=1)) {
+            return;
+        }
+        const right = this.right_bracket(end);
+        if(!right) {
+            return;
+        }
+        const contents = rows.map(r=>r.exprs.map(x=>x.tex).join(' & ')).join(' \\\\ ');
+        return {tex: `\\left ${left.tex} \\begin{matrix} ${contents} \\end{matrix} \\right ${right.tex}`, pos: pos, end: right.end};
+    }
     
     bracketed_expression(pos = 0) {
         const l = this.left_bracket(pos);
         if(l) {
-            const middle = this.expression(l.end);
+            const middle = this.expression_list(l.end);
             if(middle) {
                 const r = this.right_bracket(middle.end);
                 if(r) {
@@ -610,7 +685,7 @@ export default class AsciiMathParser {
         }
         const left = this.leftright_bracket(pos, 'left');
         if(left) {
-            const middle = this.expression(left.end);
+            const middle = this.expression_list(left.end);
             if(middle) {
                 const right = this.leftright_bracket(middle.end, 'right');
                 if(right) {
@@ -751,6 +826,9 @@ export default class AsciiMathParser {
     
     arbitrary_constant(pos = 0) {
         if(!this.eof(pos)) {
+            if(this.exact(",",pos)) {
+                return;
+            }
             for(let nc of this.non_constant_symbols.concat(this.left_brackets.map(x=>x.asciimath), this.right_brackets.map(x=>x.asciimath), this.leftright_brackets.map(x=>x.asciimath))) {
                 if(this.exact(nc, pos)) {
                     return;
