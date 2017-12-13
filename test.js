@@ -1819,7 +1819,7 @@ const unittests = [
     },
     {
         "input": "(a,b]={x in RR | a < x <= b}",
-        "tex": "\\left( a , b \\right ] = \\left\\lbrace x \\in \\mathbb{R} \\left \\lvert a < x \\le b \\right. \\right \\rbrace",
+        "tex": "\\left( a , b \\right ] = \\lbrace x \\in \\mathbb{R} | a < x \\le b \\rbrace",
         "mathml": "<mrow><mo>(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo>]</mo></mrow><mo>=</mo><mrow><mo>{</mo><mi>x</mi><mo>∈</mo><mo>ℝ</mo><mrow><mo>∣</mo></mrow><mi>a</mi><mo>&lt;</mo><mi>x</mi><mo>≤</mo><mi>b</mi><mo>}</mo></mrow>"
     },
     {
@@ -1854,7 +1854,7 @@ const unittests = [
     },
     {
         "input": "int_1^3 2x dx = x^2|_1^3",
-        "tex": "\\int_{1}^{3} 2 x dx = x^{2} \\left \\lvert \\_ 1^{3} \\right.",
+        "tex": "\\int_{1}^{3} 2 x dx = x^{2} |_{1}^{3}",
         "mathml": "<mrow><msubsup><mo>∫</mo><mn>1</mn><mn>3</mn></msubsup></mrow><mn>2</mn><mi>x</mi><mrow><mi>d</mi><mi>x</mi></mrow><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup><mrow><msubsup><mrow><mo>∣</mo></mrow><mn>1</mn><mn>3</mn></msubsup></mrow>"
     },
     {
