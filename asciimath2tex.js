@@ -2,6 +2,11 @@ export default class AsciiMathParser {
     constructor() {
         this.decimalsign = '\\.';
 
+        this.setup_symbols();
+        this.sort_symbols();
+    }
+
+    setup_symbols() {
         this.greek_letters = ['alpha', 'beta', 'gamma', 'Gamma', 'delta', 'Delta', 'epsilon', 'varepsilon', 'zeta', 'eta', 'theta', 'Theta', 'vartheta', 'iota', 'kappa', 'lambda', 'Lambda', 'mu', 'nu', 'xi', 'Xi', 'pi', 'Pi', 'rho', 'sigma', 'Sigma', 'tau', 'upsilon', 'phi', 'Phi', 'varphi', 'chi', 'psi', 'Psi', 'omega', 'Omega'];
 
         this.constants = [
@@ -323,6 +328,9 @@ export default class AsciiMathParser {
         
         this.non_constant_symbols = ['_','^','/'];
         
+    }
+
+    sort_symbols() {
         const by_asciimath = (a,b)=>{a=a.asciimath.length,b=b.asciimath.length; return a>b ? -1 : a<b ? 1 : 0};
         this.constants.sort(by_asciimath);
         this.left_brackets.sort(by_asciimath);
@@ -687,7 +695,7 @@ export default class AsciiMathParser {
         if(l) {
             const middle = this.expression_list(l.end);
             if(middle) {
-                const r = this.right_bracket(middle.end);
+                const r = this.right_bracket(middle.end) || this.leftright_bracket(middle.end,'right');
                 if(r) {
                     return {tex: `\\left${l.tex} ${middle.tex} \\right ${r.tex}`, pos: pos, end: r.end, bracket: true, left: l, right: r, middle: middle, ttype: 'bracket'};
                 } else if(this.eof(middle.end)) {
@@ -696,7 +704,7 @@ export default class AsciiMathParser {
                     return {tex: `${l.tex} ${middle.tex}`, pos: pos, end: middle.end, ttype: 'expression', exprs: [l,middle]};
                 }
             } else {
-                const r = this.right_bracket(l.end);
+                const r = this.right_bracket(l.end) || this.leftright_bracket(l.end,'right');
                 if(r) {
                     return {tex: `\\left ${l.tex} \\right ${r.tex}`, pos: pos, end: r.end, bracket: true, left: l, right: r, middle: null, ttype: 'bracket'};
                 } else {
@@ -711,7 +719,7 @@ export default class AsciiMathParser {
         if(left) {
             const middle = this.expression_list(left.end);
             if(middle) {
-                const right = this.leftright_bracket(middle.end, 'right');
+                const right = this.leftright_bracket(middle.end, 'right') || this.right_bracket(middle.end);
                 if(right) {
                     return {tex: `\\left ${left.tex} ${middle.tex} \\right ${right.tex}`, pos: pos, end: right.end, bracket: true, left: left, right: right, middle: middle, ttype: 'bracket'};
                 }
