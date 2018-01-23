@@ -648,14 +648,17 @@ export default class AsciiMathParser {
         if(!right) {
             return;
         }
-        const contents_tex = contents.rows.map(r=>r.exprs.map(x=>x.tex).join(' & ')).join(' \\\\ ');
-        return {tex: `\\left ${left.tex} \\begin{matrix} ${contents_tex} \\end{matrix} \\right ${right.tex}`, pos: pos, end: right.end, ttype: 'matrix', rows: contents.rows, left: left, right: right};
+        const contents_tex = contents.rows.map(r=>r.tex).join(' \\\\ ');
+        const matrix_tex = contents.is_array ? `\\begin{array}{${contents.column_desc}} ${contents_tex} \\end{array}` : `\\begin{matrix} ${contents_tex} \\end{matrix}`;
+        return {tex: `\\left ${left.tex} ${matrix_tex} \\right ${right.tex}`, pos: pos, end: right.end, ttype: 'matrix', rows: contents.rows, left: left, right: right};
     }
 
     matrix_contents(pos = 0, leftright = false) {
         let rows = [];
         let end = pos;
         let row_length = undefined;
+        let column_desc = undefined;
+        let is_array = false;
         while(!this.eof(end) && !(leftright ? this.leftright_bracket(end) : this.right_bracket(end))) {
             if(rows.length) {
                 const comma = this.exact(",",end);
@@ -668,26 +671,81 @@ export default class AsciiMathParser {
             if(!lb) {
                 return;
             }
-            const expr = this.expression_list(lb.end);
-            if(!expr) {
+
+            const cells = [];
+            const columns = [];
+            end = lb.end;
+            while(!this.eof(end)) {
+                if(cells.length) {
+                    const comma = this.exact(",",end);
+                    if(!comma) {
+                        break;
+                    }
+                    end = comma.end;
+                }
+                const cell = this.matrix_cell(end);
+                if(!cell) {
+                    break;
+                }
+                if(cell.ttype=='column') {
+                    columns.push('|');
+                    is_array = true;
+                    if(cell.expr!==null) {
+                        columns.push('r');
+                        cells.push(cell.expr);
+                    }
+                } else {
+                    columns.push('r');
+                    cells.push(cell);
+                }
+                end = cell.end;
+            }
+            if(!cells.length) {
                 return;
             }
             if(row_length===undefined) {
-                row_length = expr.exprs.length;
-            } else if(expr.exprs.length!=row_length) {
+                row_length = cells.length;
+            } else if(cells.length!=row_length) {
                 return;
             }
-            const rb = this.match(/^[)\]]/,expr.end);
+            const rb = this.match(/^[)\]]/,end);
             if(!rb) {
                 return;
             }
-            rows.push(expr);
+            const row_column_desc = columns.join('');
+            if(column_desc===undefined) {
+                column_desc = row_column_desc;
+            } else if(row_column_desc!=column_desc) {
+                return;
+            }
+            rows.push({ttype: 'row', tex: cells.map(c=>c.tex).join(' & '), pos: lb.end, end: end, cells: cells});
             end = rb.end;
         }
         if(row_length===undefined || (row_length<=1 && rows.length<=1)) {
             return;
         }
-        return {rows: rows, end: end};
+        return {rows: rows, end: end, column_desc: column_desc, is_array: is_array};
+    }
+
+    matrix_cell(pos = 0) {
+        const lvert = this.exact('|',pos);
+        if(lvert) {
+            const middle = this.expression(lvert.end);
+            if(middle) {
+                const rvert = this.exact('|',middle.end);
+                if(rvert) {
+                    const second = this.expression(rvert.end);
+                    if(second) {
+                        return {tex: `\\left \\lvert ${middle.tex} \\right \\rvert ${second.text}`, pos: lvert.pos, end: second.end, ttype: 'expression', exprs: [middle,second]};
+                    }
+                } else {
+                    return {ttype: 'column', expr: middle, pos: lvert.pos, end: middle.end};
+                }
+            } else {
+                return {ttype: 'column', expr: null, pos: lvert.pos, end: lvert.end}
+            }
+        }
+        return this.expression(pos);
     }
     
     bracketed_expression(pos = 0) {

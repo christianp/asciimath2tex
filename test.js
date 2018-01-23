@@ -1,6 +1,81 @@
 import AsciiMathParser from './asciimath2tex.js';
 window.AsciiMathParser = AsciiMathParser;
 
+class FXParser extends AsciiMathParser {
+    setup_symbols() {
+        super.setup_symbols();
+
+        this.constants = this.constants.concat([
+            {"asciimath":"al","tex":"\\alpha"},
+            {"asciimath":"be","tex":"\\beta"},
+            {"asciimath":"ga","tex":"\\gamma"},
+            {"asciimath":"GA","tex":"\\Gamma"},
+            {"asciimath":"de","tex":"\\delta"},
+            {"asciimath":"DE","tex":"\\Delta"},
+            {"asciimath":"ep","tex":"\\epsilon"},
+            {"asciimath":"va","tex":"\\varepsilon"},
+            {"asciimath":"ze","tex":"\\zeta"},
+            {"asciimath":"et","tex":"\\eta"},
+            {"asciimath":"th","tex":"\\theta"},
+            {"asciimath":"TH","tex":"\\Theta"},
+            {"asciimath":"va","tex":"\\vartheta"},
+            {"asciimath":"io","tex":"\\iota"},
+            {"asciimath":"ka","tex":"\\kappa"},
+            {"asciimath":"la","tex":"\\lambda"},
+            {"asciimath":"LA","tex":"\\Lambda"},
+            {"asciimath":"mu","tex":"\\mu"},
+            {"asciimath":"nu","tex":"\\nu"},
+            {"asciimath":"xi","tex":"\\xi"},
+            {"asciimath":"XI","tex":"\\Xi"},
+            {"asciimath":"pi","tex":"\\pi"},
+            {"asciimath":"PI","tex":"\\Pi"},
+            {"asciimath":"rh","tex":"\\rho"},
+            {"asciimath":"si","tex":"\\sigma"},
+            {"asciimath":"SI","tex":"\\Sigma"},
+            {"asciimath":"ta","tex":"\\tau"},
+            {"asciimath":"up","tex":"\\upsilon"},
+            {"asciimath":"ph","tex":"\\phi"},
+            {"asciimath":"PH","tex":"\\Phi"},
+            {"asciimath":"va","tex":"\\varphi"},
+            {"asciimath":"ch","tex":"\\chi"},
+            {"asciimath":"ps","tex":"\\psi"},
+            {"asciimath":"PS","tex":"\\Psi"},
+            {"asciimath":"om","tex":"\\omega"},
+            {"asciimath":"OM","tex":"\\Omega"}
+        ]);
+
+        this.constants.splice(0,0,...[
+            {asciimath:"es", tex:"\\emptyset"},
+            {asciimath:"pd", tex:"\\partial"},
+            {asciimath:"tf", tex:"\\therefore"},
+            {asciimath:"te", tex:"\\exists"},
+            {asciimath:"fa", tex:"\\forall"},
+            {asciimath:"`", tex:"\\degree"},
+            {asciimath:"e-", tex:"\\in"},
+            {asciimath:"xx", tex:"x^2"},
+            {"asciimath":"cc","tex":"\\mathbb{C}"},
+            {"asciimath":"nn","tex":"\\mathbb{N}"},
+            {"asciimath":"qq","tex":"\\mathbb{Q}"},
+            {"asciimath":"rr","tex":"\\mathbb{R}"},
+            {"asciimath":"zz","tex":"\\mathbb{Z}"},
+        ]);
+        this.unary_symbols.push({"asciimath":"sr","tex":"\\sqrt"});
+    }
+
+    scientific(pos = 0) {
+        const re_science = new RegExp(`^(\\d+(?:${this.decimalsign}\d+)?)E(-?\\d+(?:${this.decimalsign}\\d+)?)`);
+        const m = this.match(re_science, pos);
+        if(m) {
+            return {tex: `${m.match[1]} \\times 10^{${m.match[2]}}`, pos: m.pos, end: m.end};
+        }
+    }
+
+    number(pos = 0) {
+        return this.longest([super.number(pos), this.scientific(pos)]);
+    }
+}
+window.FXParser = FXParser;
+
 const p = new AsciiMathParser();
 
 const inp = document.getElementById('asciimath');
@@ -1788,6 +1863,18 @@ const unittests = [
         "mathml": "<mrow><mo>{</mo><mtable columnalign=\"left\"><mtr><mtd><mn>1</mn></mtd><mtd><mrow><mspace width=\"1ex\"></mspace><mo>if</mo><mspace width=\"1ex\"></mspace></mrow></mtd><mtd><mi>x</mi><mo>≥</mo><mn>3</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd><mtd><mrow><mspace width=\"1ex\"></mspace><mo>if</mo><mspace width=\"1ex\"></mspace></mrow></mtd><mtd><mi>x</mi><mo>&gt;</mo><mn>3</mn></mtd></mtr></mtable></mrow>"
     },
     {
+        "input": "((a,|b),(c,|d))",
+        "tex": "\\left ( \\begin{array}{r|r} a & b \\\\ c & d \\end{array} \\right )"
+    },
+    {
+        "input": "((|x|,|2),(3,|4))",
+        "tex": "\\left ( \\begin{array}{r|r} \\left \\lvert x \\right \\rvert & 2 \\\\ 3 & 4 \\end{array} \\right )"
+    },
+    {
+        "input": "[(x,1,2,|,3),(3,2,1,|,4)]",
+        "tex": "\\left [ \\begin{array}{rrr|r} x & 1 & 2 & 3 \\\\ 3 & 2 & 1 & 4 \\end{array} \\right ]"
+    },
+    {
         "input": "int_2^3 3dx",
         "tex": "\\int_{2}^{3} 3 dx",
         "mathml": "<mrow><msubsup><mo>∫</mo><mn>2</mn><mn>3</mn></msubsup></mrow><mn>3</mn><mrow><mi>d</mi><mi>x</mi></mrow>"
@@ -2135,4 +2222,3 @@ function run_tests() {
 }
 const run_tests_button = document.getElementById('run-tests');
 run_tests_button.addEventListener('click',run_tests);
-
