@@ -12,7 +12,7 @@ However, in environments where modules are supported, usage goes like this:
 ```
 import AsciiMathParser from './asciimath2tex.js';
 
-const parser = new Parser();
+const parser = new AsciiMathParser();
 const tex = parser.parse("int_(i=1)^10 x^2/2 dx");
 ```
 
