@@ -595,7 +595,7 @@ export default class AsciiMathParser {
                 end = sub.end;
             }
         }
-        let sup = this.exact('^',end);
+        let sup = this.match(/^\^(?!\^)/,end);
         if(sup) {
             sup_expr = this.unbracket(this.simple(sup.end));
             if(sup_expr) {

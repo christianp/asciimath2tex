@@ -448,6 +448,11 @@ const unittests = [
         "mathml": "<mo>⋀</mo>"
     },
     {
+        "input": "x ^^^ y",
+        "tex": "x \\bigwedge y",
+        "mathml": "<mi>x</mi><mo>&#x22C0;</mo><mi>y</mi>"
+    },
+    {
         "input": "_",
         "tex": "\\_",
         "mathml": "<mo>_</mo>"
