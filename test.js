@@ -1,5 +1,8 @@
 import AsciiMathParser from './asciimath2tex.js';
+import asciimathToTeX from './showdown-katex-asciimath-to-tex.js';
 window.AsciiMathParser = AsciiMathParser;
+
+console.log('arg');
 
 class FXParser extends AsciiMathParser {
     setup_symbols() {
@@ -2193,11 +2196,13 @@ function run_tests() {
         const input_td = document.createElement('td');
         const expected_td = document.createElement('td');
         const output_td = document.createElement('td');
+        const showdown_td = document.createElement('td');
         const katex_td = document.createElement('td');
         const mathml_td = document.createElement('td');
         tr.appendChild(input_td);
         tr.appendChild(expected_td);
         tr.appendChild(output_td);
+        tr.appendChild(showdown_td);
         tr.appendChild(katex_td);
         tr.appendChild(mathml_td);
 
@@ -2208,9 +2213,15 @@ function run_tests() {
         try {
             const tex = p.parse(test.input);
             output_td.textContent = tex;
+            const showdown_tex = asciimathToTeX(test.input);
+            showdown_td.textContent = showdown_tex;
             new_tests.push({input:test.input, tex: tex, mathml: test.mathml});
             katex.render(tex,katex_td,{displayMode:true});
             if(tex!=test.tex) {
+                tr.classList.add('mismatch');
+            }
+            const tidy = s => s.replace(/[{}\s]/g,'');
+            if(tidy(showdown_tex) != tidy(tex)) {
                 tr.classList.add('mismatch');
             }
         } catch(e) {
@@ -2219,6 +2230,7 @@ function run_tests() {
             new_tests.push({input:test.input, tex: test.tex, mathml: test.mathml});
             tr.classList.add('failed');
         }
+
     });
     MathJax.Hub.Queue(['Typeset',MathJax.Hub,tbody]);
     const ta = document.createElement('textarea');
