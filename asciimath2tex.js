@@ -9,6 +9,59 @@ export default class AsciiMathParser {
     setup_symbols() {
         this.greek_letters = ['alpha', 'beta', 'gamma', 'Gamma', 'delta', 'Delta', 'epsilon', 'varepsilon', 'zeta', 'eta', 'theta', 'Theta', 'vartheta', 'iota', 'kappa', 'lambda', 'Lambda', 'mu', 'nu', 'xi', 'Xi', 'pi', 'Pi', 'rho', 'sigma', 'Sigma', 'tau', 'upsilon', 'phi', 'Phi', 'varphi', 'chi', 'psi', 'Psi', 'omega', 'Omega'];
 
+        this.relations = [
+            {"asciimath":":=","tex":":="},
+            {"asciimath":"=>","tex":"\\Rightarrow"},
+            {"asciimath":"approx","tex":"\\approx"},
+            {"asciimath":"~~","tex":"\\approx"},
+            {"asciimath":"cong","tex":"\\cong"},
+            {"asciimath":"~=","tex":"\\cong"},
+            {"asciimath":"equiv","tex":"\\equiv"},
+            {"asciimath":"-=","tex":"\\equiv"},
+            {"asciimath":"exists","tex":"\\exists"},
+            {"asciimath":"EE","tex":"\\exists"},
+            {"asciimath":"forall","tex":"\\forall"},
+            {"asciimath":"AA","tex":"\\forall"},
+            {"asciimath":">=","tex":"\\ge"},
+            {"asciimath":"ge","tex":"\\ge"},
+            {"asciimath":"gt=","tex":"\\geq"},
+            {"asciimath":"geq","tex":"\\geq"},
+            {"asciimath":"gt","tex":"\\gt"},
+            {"asciimath":"in","tex":"\\in"},
+            {"asciimath":"<=","tex":"\\le"},
+            {"asciimath":"le","tex":"\\le"},
+            {"asciimath":"lt=","tex":"\\leq"},
+            {"asciimath":"leq","tex":"\\leq"},
+            {"asciimath":"lt","tex":"\\lt"},
+            {"asciimath":"models","tex":"\\models"},
+            {"asciimath":"|==","tex":"\\models"},
+            {"asciimath":"!=","tex":"\\ne"},
+            {"asciimath":"ne","tex":"\\ne"},
+            {"asciimath":"notin","tex":"\\notin"},
+            {"asciimath":"!in","tex":"\\notin"},
+            {"asciimath":"prec","tex":"\\prec"},
+            {"asciimath":"-lt","tex":"\\prec"},
+            {"asciimath":"-<","tex":"\\prec"},
+            {"asciimath":"preceq","tex":"\\preceq"},
+            {"asciimath":"-<=","tex":"\\preceq"},
+            {"asciimath":"propto","tex":"\\propto"},
+            {"asciimath":"prop","tex":"\\propto"},
+            {"asciimath":"subset","tex":"\\subset"},
+            {"asciimath":"sub","tex":"\\subset"},
+            {"asciimath":"subseteq","tex":"\\subseteq"},
+            {"asciimath":"sube","tex":"\\subseteq"},
+            {"asciimath":"succ","tex":"\\succ"},
+            {"asciimath":">-","tex":"\\succ"},
+            {"asciimath":"succeq","tex":"\\succeq"},
+            {"asciimath":">-=","tex":"\\succeq"},
+            {"asciimath":"supset","tex":"\\supset"},
+            {"asciimath":"sup","tex":"\\supset"},
+            {"asciimath":"supseteq","tex":"\\supseteq"},
+            {"asciimath":"supe","tex":"\\supseteq"},
+            {"asciimath":"vdash","tex":"\\vdash"},
+            {"asciimath":"|--","tex":"\\vdash"},
+        ]
+
         this.constants = [
             {"asciimath":"dt","tex":"dt"},
             {"asciimath":"dx","tex":"dx"},
@@ -31,7 +84,6 @@ export default class AsciiMathParser {
             {"asciimath":"bigvee","tex":"\\bigvee"},
             {"asciimath":"bigcap","tex":"\\bigcap"},
             {"asciimath":"bigcup","tex":"\\bigcup"},
-            {"asciimath":"approx","tex":"\\approx"},
             {"asciimath":"square","tex":"\\square"},
             {"asciimath":"lamda","tex":"\\lambda"},
             {"asciimath":"Lamda","tex":"\\Lambda"},
@@ -46,11 +98,6 @@ export default class AsciiMathParser {
             {"asciimath":"star","tex":"\\star"},
             {"asciimath":"|><|","tex":"\\bowtie"},
             {"asciimath":"circ","tex":"\\circ"},
-            {"asciimath":"sube","tex":"\\subseteq"},
-            {"asciimath":"supe","tex":"\\supseteq"},
-            {"asciimath":"cong","tex":"\\cong"},
-            {"asciimath":"prop","tex":"\\propto"},
-            {"asciimath":"propto","tex":"\\propto"},
             {"asciimath":"oint","tex":"\\oint"},
             {"asciimath":"grad","tex":"\\nabla"},
             {"asciimath":"quad","tex":"\\quad"},
@@ -74,20 +121,10 @@ export default class AsciiMathParser {
             {"asciimath":"nnn","tex":"\\bigcap"},
             {"asciimath":"cup","tex":"\\cup"},
             {"asciimath":"uuu","tex":"\\bigcup"},
-            {"asciimath":"lt=","tex":"\\leq"},
-            {"asciimath":"gt=","tex":"\\geq"},
-            {"asciimath":"-lt","tex":"\\prec"},
-            {"asciimath":"-<=","tex":"\\preceq"},
-            {"asciimath":">-=","tex":"\\succeq"},
-            {"asciimath":"!in","tex":"\\notin"},
-            {"asciimath":"sub","tex":"\\subset"},
-            {"asciimath":"sup","tex":"\\supset"},
             {"asciimath":"not","tex":"\\neg"},
             {"asciimath":"<=>","tex":"\\Leftrightarrow"},
             {"asciimath":"_|_","tex":"\\bot"},
             {"asciimath":"bot","tex":"\\bot"},
-            {"asciimath":"|--","tex":"\\vdash"},
-            {"asciimath":"|==","tex":"\\models"},
             {"asciimath":":|:","tex":"\\|"},
             {"asciimath":"int","tex":"\\int"},
             {"asciimath":"del","tex":"\\partial"},
@@ -120,21 +157,6 @@ export default class AsciiMathParser {
             {"asciimath":"vv","tex":"\\vee"},
             {"asciimath":"nn","tex":"\\cap"},
             {"asciimath":"uu","tex":"\\cup"},
-            {"asciimath":"!=","tex":"\\ne"},
-            {"asciimath":":=","tex":":="},
-            {"asciimath":"lt","tex":"\\lt"},
-            {"asciimath":"gt","tex":"\\gt"},
-            {"asciimath":"<=","tex":"\\le"},
-            {"asciimath":">=","tex":"\\ge"},
-            {"asciimath":"-<","tex":"\\prec"},
-            {"asciimath":">-","tex":"\\succ"},
-            {"asciimath":"in","tex":"\\in"},
-            {"asciimath":"-=","tex":"\\equiv"},
-            {"asciimath":"~=","tex":"\\cong"},
-            {"asciimath":"~~","tex":"\\approx"},
-            {"asciimath":"=>","tex":"\\Rightarrow"},
-            {"asciimath":"AA","tex":"\\forall"},
-            {"asciimath":"EE","tex":"\\exists"},
             {"asciimath":"TT","tex":"\\top"},
             {"asciimath":"+-","tex":"\\pm"},
             {"asciimath":"O/","tex":"\\emptyset"},
@@ -159,26 +181,13 @@ export default class AsciiMathParser {
             {"asciimath":"boxempty","tex":"\\square"},
             {"asciimath":"lambda","tex":"\\lambda"},
             {"asciimath":"Lambda","tex":"\\Lambda"},
-            {"asciimath":"subseteq","tex":"\\subseteq"},
-            {"asciimath":"supseteq","tex":"\\supseteq"},
-            {"asciimath":"propto","tex":"\\propto"},
             {"asciimath":"nabla","tex":"\\nabla"},
             {"asciimath":"uparrow","tex":"\\uparrow"},
             {"asciimath":"downarrow","tex":"\\downarrow"},
             {"asciimath":"twoheadrightarrowtail","tex":"\\twoheadrightarrowtail"},
             {"asciimath":"ltimes","tex":"\\ltimes"},
             {"asciimath":"rtimes","tex":"\\rtimes"},
-            {"asciimath":"leq","tex":"\\leq"},
-            {"asciimath":"geq","tex":"\\geq"},
-            {"asciimath":"prec","tex":"\\prec"},
-            {"asciimath":"preceq","tex":"\\preceq"},
-            {"asciimath":"succeq","tex":"\\succeq"},
-            {"asciimath":"notin","tex":"\\notin"},
-            {"asciimath":"subset","tex":"\\subset"},
-            {"asciimath":"supset","tex":"\\supset"},
             {"asciimath":"neg","tex":"\\neg"},
-            {"asciimath":"vdash","tex":"\\vdash"},
-            {"asciimath":"models","tex":"\\models"},
             {"asciimath":"partial","tex":"\\partial"},
             {"asciimath":"ldots","tex":"\\ldots"},
             {"asciimath":"triangle","tex":"\\triangle"},
@@ -195,13 +204,6 @@ export default class AsciiMathParser {
             {"asciimath":"odot","tex":"\\odot"},
             {"asciimath":"wedge","tex":"\\wedge"},
             {"asciimath":"vee","tex":"\\vee"},
-            {"asciimath":"ne","tex":"\\ne"},
-            {"asciimath":"le","tex":"\\le"},
-            {"asciimath":"ge","tex":"\\ge"},
-            {"asciimath":"succ","tex":"\\succ"},
-            {"asciimath":"equiv","tex":"\\equiv"},
-            {"asciimath":"forall","tex":"\\forall"},
-            {"asciimath":"exists","tex":"\\exists"},
             {"asciimath":"top","tex":"\\top"},
             {"asciimath":"pm","tex":"\\pm"},
             {"asciimath":"emptyset","tex":"\\emptyset"},
@@ -219,6 +221,7 @@ export default class AsciiMathParser {
             {"asciimath":"prod","tex":"\\prod"},
             {"asciimath":"sum","tex":"\\sum"},
         ];
+        this.constants = this.constants.concat(this.relations);
         
         this.left_brackets = [
             {asciimath: 'langle', tex: '\\langle'},
@@ -333,6 +336,7 @@ export default class AsciiMathParser {
     sort_symbols() {
         const by_asciimath = (a,b)=>{a=a.asciimath.length,b=b.asciimath.length; return a>b ? -1 : a<b ? 1 : 0};
         this.constants.sort(by_asciimath);
+        this.relations.sort(by_asciimath);
         this.left_brackets.sort(by_asciimath);
         this.right_brackets.sort(by_asciimath);
         this.leftright_brackets.sort(by_asciimath);
@@ -904,6 +908,18 @@ export default class AsciiMathParser {
     }
 
     other_constant(pos = 0) {
+        let not = this.exact('!',pos);
+        if(not) {
+            for(let sym of this.relations) {
+                if(sym.asciimath[0]=='!') {
+                    continue;
+                }
+                let m = this.exact(sym.asciimath, not.end);
+                if(m) {
+                    return {tex: `\\not ${sym.tex}`, pos: not.pos, end: m.end, ttype: 'other_constant'};
+                }
+            }
+        }
         for(let sym of this.constants) {
             let m = this.exact(sym.asciimath, pos);
             if(m) {
