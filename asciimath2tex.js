@@ -11,6 +11,7 @@ export default class AsciiMathParser {
 
         this.relations = [
             {"asciimath":":=","tex":":="},
+            {"asciimath":":|:","tex":"\\|"},
             {"asciimath":"=>","tex":"\\Rightarrow"},
             {"asciimath":"approx","tex":"\\approx"},
             {"asciimath":"~~","tex":"\\approx"},
@@ -125,7 +126,6 @@ export default class AsciiMathParser {
             {"asciimath":"<=>","tex":"\\Leftrightarrow"},
             {"asciimath":"_|_","tex":"\\bot"},
             {"asciimath":"bot","tex":"\\bot"},
-            {"asciimath":":|:","tex":"\\|"},
             {"asciimath":"int","tex":"\\int"},
             {"asciimath":"del","tex":"\\partial"},
             {"asciimath":"...","tex":"\\ldots"},
@@ -908,15 +908,11 @@ export default class AsciiMathParser {
     }
 
     other_constant(pos = 0) {
-        let not = this.exact('!',pos);
-        if(not) {
-            for(let sym of this.relations) {
-                if(sym.asciimath[0]=='!') {
-                    continue;
-                }
-                let m = this.exact(sym.asciimath, not.end);
-                if(m) {
-                    return {tex: `\\not ${sym.tex}`, pos: not.pos, end: m.end, ttype: 'other_constant'};
+        for(let sym of this.relations) {
+            if(!sym.asciimath.match(/^!/)) {
+                let notm = this.exact('!'+sym.asciimath, pos);
+                if(notm) {
+                    return {tex: `\\not ${sym.tex}`, pos: notm.pos, end: notm.end, ttype: 'other_constant'};
                 }
             }
         }
