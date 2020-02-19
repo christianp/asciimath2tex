@@ -452,7 +452,10 @@ export default class AsciiMathParser {
                 pos = expr.end;
                 exprs.push(expr);
             } else if(!this.eof(pos)) {
-                throw(new Error("Didn't EOF: ",this.source(pos)));
+                const chr = this.source(pos,pos+1);
+                exprs.push({tex: chr, pos: pos, ttype: 'character'});
+                tex += chr;
+                pos += 1;
             }
         }
         return {tex: tex, exprs: exprs};
@@ -908,18 +911,18 @@ export default class AsciiMathParser {
     }
 
     other_constant(pos = 0) {
+        for(let sym of this.constants) {
+            let m = this.exact(sym.asciimath, pos);
+            if(m) {
+                return {tex: `${sym.tex}`, pos: m.pos, end: m.end, ttype: 'other_constant'};
+            }
+        }
         for(let sym of this.relations) {
             if(!sym.asciimath.match(/^!/)) {
                 let notm = this.exact('!'+sym.asciimath, pos);
                 if(notm) {
                     return {tex: `\\not ${sym.tex}`, pos: notm.pos, end: notm.end, ttype: 'other_constant'};
                 }
-            }
-        }
-        for(let sym of this.constants) {
-            let m = this.exact(sym.asciimath, pos);
-            if(m) {
-                return {tex: `${sym.tex}`, pos: m.pos, end: m.end, ttype: 'other_constant'};
             }
         }
     }
