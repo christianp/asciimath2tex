@@ -5,12 +5,14 @@ I wrote this so I could use KaTeX to render AsciiMath.
 
 ## Usage
 
-The library is written as an ECMAScript module. As of the end of 2017, support for those in browsers is limited, so I plan to run it through [babel](https://babeljs.io/) to get a browser-usable version.
+The library is written as an ECMAScript module but is also distributed as CommonJS and UMD modules.
 
-However, in environments where modules are supported, usage goes like this:
+```js
+import AsciiMathParser from 'asciimath2tex';
 
-```
-import AsciiMathParser from './asciimath2tex.js';
+// Or, in older versions of Node.js, when not using a compiler 
+// like Typescript or Babel.
+const AsciiMathParser = require('asciimath2tex')
 
 const parser = new AsciiMathParser();
 const tex = parser.parse("int_(i=1)^10 x^2/2 dx");
