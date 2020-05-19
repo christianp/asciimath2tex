@@ -6,6 +6,7 @@
   "main": "dist/asciimath2tex.js",
   "module": "dist/asciimath2tex.mjs",
   "unpkg": "dist/asciimath2tex.umd.js",
+  "amdName": "AsciiMathParser",
   "files": [
     "dist"
   ],
