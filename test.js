@@ -2253,6 +2253,11 @@ const unittests = [
         "input": "P(B|A) = (P(A|B) * P(B))/(P(A))",
         "tex": "P \\left ( B \\mid A \\right ) = \\frac{P \\left ( A \\mid B \\right ) \\cdot P \\left ( B \\right )}{P \\left ( A \\right )}",
         "mathml": "<mi>P</mi><mrow><mo>(</mo><mi>B</mi><mo>&#x2223;</mo><mi>A</mi><mo>)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo>(</mo><mi>A</mi><mo>&#x2223;</mo><mi>B</mi><mo>)</mo></mrow><mo>&#x22C5;</mo><mi>P</mi><mrow><mo>(</mo><mi>B</mi><mo>)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo>(</mo><mi>A</mi><mo>)</mo></mrow></mrow></mfrac>"
+    },
+    {
+        "input": "x\\ y",
+        "tex": "x \\, y",
+        "mathml": "<mi>x</mi><mstyle scriptlevel=\"0\"><mspace width=\"thinmathspace\"></mspace></mstyle><mi>y</mi>"
     }
 ]
 

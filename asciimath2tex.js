@@ -465,7 +465,7 @@ export default class AsciiMathParser {
     
     strip_space(pos = 0) {
         const osource = this.source(pos);
-        const reduced = osource.replace(/^(\s|\\(?!\\))*/,'');
+        const reduced = osource.replace(/^(\s|\\(?![\\ ]))*/,'');
         return pos + osource.length - reduced.length;
     }
     
