@@ -11,46 +11,53 @@ The file `asciimath2tex.js` is an ES6 module which can be used in browsers that 
 
 ### In a browser
 
-Include `dist/asciimath2tex.umd.js` with a script tag:
-
-```js
-<script src="dist/asciimath2tex.umd.js"></script>
-```
-
-Then, the parser constructor is available as `AsciiMathParser`:
-
-```js
-var parser = new AsciiMathParser();
-var tex = parser.parse("int_(i=1)^10 x^2/2 dx");
-```
-
-### Node.js / CommonJS
-
-The file `dist/asciimath2tex.js` is a CommonJS module that can be used by node:
-
-```js
-const AsciiMathParser = require('asciimath2tex.js');
-
-const parser = new AsciiMathParser();
-const tex = parser.parse("int_(i=1)^10 x^2/2 dx");
-```
-
-### ECMAScript module
-
 If you can use ES6 modules, use `asciimath2tex.js` as-is:
 
 ```js
 import AsciiMathParser from 'asciimath2tex';
-
-// Or, in older versions of Node.js, when not using a compiler 
-// like Typescript or Babel.
-const AsciiMathParser = require('asciimath2tex')
 
 const parser = new AsciiMathParser();
 const tex = parser.parse("int_(i=1)^10 x^2/2 dx");
 ```
 
 `parser.parse` returns a string of TeX.
+
+If you can't use ES6 modules, there is a UMD version.
+You can load it from unpkg.com, or create it yourself.
+
+#### To load from unpkg
+
+```html
+<script src="https://unpkg.com/asciimath2tex@1.2.1/dist/asciimath2tex.umd.js"></script>
+```
+
+#### To create the file locally
+
+Clone this repository, and run:
+
+```
+npm install
+npm run-script build
+```
+
+Copy the file `dist/asciimath2tex.umd.js` into your project.
+
+### Node.js / CommonJS
+
+Install the package using npm:
+
+```
+npm install asciimath2tex
+```
+
+You can then load the package in your script:
+
+```js
+const AsciiMathParser = require('asciimath2tex');
+
+const parser = new AsciiMathParser();
+const tex = parser.parse("int_(i=1)^10 x^2/2 dx");
+```
 
 ## Tests
 
