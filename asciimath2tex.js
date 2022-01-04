@@ -11,7 +11,7 @@ export default class AsciiMathParser {
 
         this.relations = [
             {"asciimath":":=","tex":":="},
-            {"asciimath":":|:","tex":"\\|"},
+            {"asciimath":":|:","tex":"\\mid"},
             {"asciimath":"=>","tex":"\\Rightarrow"},
             {"asciimath":"approx","tex":"\\approx"},
             {"asciimath":"~~","tex":"\\approx"},
@@ -230,6 +230,7 @@ export default class AsciiMathParser {
             {asciimath: '{:', tex: '.'},
             {asciimath: '(', tex: '('},
             {asciimath: '[', tex: '['},
+            {asciimath: '|:', tex: '\\lvert'},
             {asciimath: '{', tex: '\\lbrace'},
             {asciimath: 'lbrace', tex: '\\lbrace'},
         ];
@@ -240,11 +241,12 @@ export default class AsciiMathParser {
             {asciimath: ':}', tex: '.', free_tex: ':\\}'},
             {asciimath: ')', tex: ')'},
             {asciimath: ']', tex: ']'},
+            {asciimath: ':|', tex: '\\rvert'},
             {asciimath: '}', tex: '\\rbrace'},
             {asciimath: 'rbrace', tex: '\\rbrace'},
         ];
         this.leftright_brackets = [
-            {asciimath: '|', left_tex: '\\lvert', right_tex: '\\rvert', free_tex: '|'},
+            {asciimath: '|', left_tex: '\\lvert', right_tex: '\\rvert', free_tex: '|', mid_tex: '\\mid'},
         ];
         
         this.unary_symbols = [
@@ -563,10 +565,10 @@ export default class AsciiMathParser {
             if(second) {
                 const ufirst = this.unbracket(first);
                 const usecond = this.unbracket(second);
-                return {tex: `\\frac{${ufirst.tex}}{${usecond.tex}}`, pos: first.pos, end: second.end, ttype: 'fraction', numerator: ufirst, denominator: usecond};
+                return {tex: `\\frac{${ufirst.tex}}{${usecond.tex}}`, pos: first.pos, end: second.end, ttype: 'fraction', numerator: ufirst, denominator: usecond, raw_numerator: first, raw_denominator: second};
             } else {
                 const ufirst = this.unbracket(first);
-                return {tex: `\\frac{${ufirst.tex}}{}`, pos: first.pos, end: frac.end, ttype: 'fraction', numerator: ufirst, denominator: null};
+                return {tex: `\\frac{${ufirst.tex}}{}`, pos: first.pos, end: frac.end, ttype: 'fraction', numerator: ufirst, denominator: null, raw_numerator: first, raw_denominator: null};
             }
         } else {
             return first;
@@ -760,11 +762,15 @@ export default class AsciiMathParser {
         if(l) {
             const middle = this.expression_list(l.end);
             if(middle) {
+                const m = this.mid_expression(l,middle,pos);
+                if(m) {
+                    return m;
+                }
                 const r = this.right_bracket(middle.end) || this.leftright_bracket(middle.end,'right');
                 if(r) {
-                    return {tex: `\\left${l.tex} ${middle.tex} \\right ${r.tex}`, pos: pos, end: r.end, bracket: true, left: l, right: r, middle: middle, ttype: 'bracket'};
+                    return {tex: `\\left ${l.tex} ${middle.tex} \\right ${r.tex}`, pos: pos, end: r.end, bracket: true, left: l, right: r, middle: middle, ttype: 'bracket'};
                 } else if(this.eof(middle.end)) {
-                    return {tex: `\\left${l.tex} ${middle.tex} \\right.`, pos: pos, end: middle.end, ttype: 'bracket', left: l, right: null, middle: middle};
+                    return {tex: `\\left ${l.tex} ${middle.tex} \\right.`, pos: pos, end: middle.end, ttype: 'bracket', left: l, right: null, middle: middle};
                 } else {
                     return {tex: `${l.tex} ${middle.tex}`, pos: pos, end: middle.end, ttype: 'expression', exprs: [l,middle]};
                 }
@@ -784,11 +790,50 @@ export default class AsciiMathParser {
         if(left) {
             const middle = this.expression_list(left.end);
             if(middle) {
+                const m = this.mid_expression(left,middle,pos);
+                if(m) {
+                    return m;
+                }
                 const right = this.leftright_bracket(middle.end, 'right') || this.right_bracket(middle.end);
                 if(right) {
                     return {tex: `\\left ${left.tex} ${middle.tex} \\right ${right.tex}`, pos: pos, end: right.end, bracket: true, left: left, right: right, middle: middle, ttype: 'bracket'};
                 }
             }
+        }
+    }
+
+    // Detect the case where the "middle" part of a bracketed expression ends in another bracketed expression whose left delimiter is a left/right symbol, e.g. `|`.
+    // In these cases, interpret this as a bracketed expression where the left/right symbol is a 'mid' delimiter.
+    mid_expression(l,middle,pos) {
+        function is_mid_bracket(t) {
+            return t.ttype == 'bracket' && t.left.ttype=='leftright_bracket';
+        }
+        if(middle.exprs.length==1 && middle.exprs[0].ttype=='expression') {
+            const firsts = [middle.exprs[0].exprs[0]];
+            let last =  middle.exprs[0].exprs[1];
+            let end = middle.end;
+            while(last.ttype=='expression') {
+                const first = last.exprs[0];
+                if(is_mid_bracket(first)) {
+                    last = first;
+                    end = first.end;
+                    break;
+                }
+                firsts.push(last.exprs[0]);
+                last = last.exprs[1];
+            }
+            if(last.ttype=='fraction') {
+                last = last.raw_numerator;
+                end = last.end;
+            }
+            if(!(last.ttype=='bracket' && last.left.ttype=='leftright_bracket')) {
+                return;
+            }
+            const firsttex = firsts.map(e=>e.tex).join(' ');
+            const mid = last.left;
+            const lasttex = last.middle.exprs.map(e=>e.tex).join(' ');
+            const nr = last.right;
+            return {tex: `\\left ${l.tex} ${firsttex} ${mid.def.mid_tex} ${lasttex} \\right ${nr.tex}`, pos: pos, end: end, left: l, right: nr, middle: {tex: `${firsttex} ${mid.def.mid_tex} ${lasttex}`, exprs: firsts.concat([mid,last.middle]), pos: middle.pos, end: last.middle.end, ttype: 'expression_list'}};
         }
     }
     
@@ -816,7 +861,11 @@ export default class AsciiMathParser {
         for(let lr of this.leftright_brackets) {
             const b = this.exact(lr.asciimath, pos);
             if(b) {
-                return {tex: position=='left' ? lr.left_tex : position=='right' ? lr.right_tex : lr.free_tex, pos: pos, end: b.end, ttype: 'leftright_bracket'};
+                if(this.exact(',',b.end)) {
+                    return {tex: lr.free_tex, pos: pos, end: b.end, ttype: 'binary'};
+                } else {
+                    return {tex: position=='left' ? lr.left_tex : position=='right' ? lr.right_tex : lr.free_tex, pos: pos, end: b.end, ttype: 'leftright_bracket', def: lr};
+                }
             }
         }
     }

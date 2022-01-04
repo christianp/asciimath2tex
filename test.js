@@ -268,6 +268,41 @@ const unittests = [
         "mathml": "<mo>⤖</mo>"
     },
     {
+        "input": ">->>",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": ">->>",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": ">->>",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": ">->>",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": ">->>",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": ">->>",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": ">->>",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
         "input": "><|",
         "tex": "\\rtimes",
         "mathml": "<mo>⋊</mo>"
@@ -1398,6 +1433,41 @@ const unittests = [
         "mathml": "<mo>⤖</mo>"
     },
     {
+        "input": "twoheadrightarrowtail",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": "twoheadrightarrowtail",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": "twoheadrightarrowtail",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": "twoheadrightarrowtail",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": "twoheadrightarrowtail",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": "twoheadrightarrowtail",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
+        "input": "twoheadrightarrowtail",
+        "tex": "\\twoheadrightarrowtail",
+        "mathml": "<mo>⤖</mo>"
+    },
+    {
         "input": "uarr",
         "tex": "\\uparrow",
         "mathml": "<mo>↑</mo>"
@@ -1579,12 +1649,12 @@ const unittests = [
     },
     {
         "input": "f(x)/g(x)",
-        "tex": "\\frac{f{\\left( x \\right )}}{g{\\left( x \\right )}}",
+        "tex": "\\frac{f{\\left ( x \\right )}}{g{\\left ( x \\right )}}",
         "mathml": "<mfrac><mrow><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mrow><mi>g</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow></mfrac>"
     },
     {
         "input": "sin(x)/2",
-        "tex": "\\frac{\\sin{\\left( x \\right )}}{2}",
+        "tex": "\\frac{\\sin{\\left ( x \\right )}}{2}",
         "mathml": "<mfrac><mrow><mo>sin</mo><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mn>2</mn></mfrac>"
     },
     {
@@ -1809,17 +1879,17 @@ const unittests = [
     },
     {
         "input": "(2+3)",
-        "tex": "\\left( 2 + 3 \\right )",
+        "tex": "\\left ( 2 + 3 \\right )",
         "mathml": "<mrow><mo>(</mo><mn>2</mn><mo>+</mo><mn>3</mn><mo>)</mo></mrow>"
     },
     {
         "input": "2+(3/4+1)",
-        "tex": "2 + \\left( \\frac{3}{4} + 1 \\right )",
+        "tex": "2 + \\left ( \\frac{3}{4} + 1 \\right )",
         "mathml": "<mn>2</mn><mo>+</mo><mrow><mo>(</mo><mfrac><mn>3</mn><mn>4</mn></mfrac><mo>+</mo><mn>1</mn><mo>)</mo></mrow>"
     },
     {
         "input": "2+[3/4+1]",
-        "tex": "2 + \\left[ \\frac{3}{4} + 1 \\right ]",
+        "tex": "2 + \\left [ \\frac{3}{4} + 1 \\right ]",
         "mathml": "<mn>2</mn><mo>+</mo><mrow><mo>[</mo><mfrac><mn>3</mn><mn>4</mn></mfrac><mo>+</mo><mn>1</mn><mo>]</mo></mrow>"
     },
     {
@@ -1829,22 +1899,22 @@ const unittests = [
     },
     {
         "input": "[2/3,4)",
-        "tex": "\\left[ \\frac{2}{3} , 4 \\right )",
+        "tex": "\\left [ \\frac{2}{3} , 4 \\right )",
         "mathml": "<mrow><mo>[</mo><mfrac><mn>2</mn><mn>3</mn></mfrac><mo>,</mo><mn>4</mn><mo>)</mo></mrow>"
     },
     {
         "input": "{:2,3:}",
-        "tex": "\\left. 2 , 3 \\right .",
+        "tex": "\\left . 2 , 3 \\right .",
         "mathml": "<mrow><mn>2</mn><mo>,</mo><mn>3</mn></mrow>"
     },
     {
         "input": "<<2,3>>",
-        "tex": "\\left\\langle 2 , 3 \\right \\rangle",
+        "tex": "\\left \\langle 2 , 3 \\right \\rangle",
         "mathml": "<mrow><mo>〈</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>〉</mo></mrow>"
     },
     {
         "input": "(:2,3:)",
-        "tex": "\\left\\langle 2 , 3 \\right \\rangle",
+        "tex": "\\left \\langle 2 , 3 \\right \\rangle",
         "mathml": "<mrow><mo>〈</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>〉</mo></mrow>"
     },
     {
@@ -1873,7 +1943,7 @@ const unittests = [
     },
     {
         "input": "((|x|,|2),(3,|4))",
-        "tex": "\\left ( \\begin{array}{r|r} \\left \\lvert x \\right \\rvert & 2 \\\\ 3 & 4 \\end{array} \\right )"
+        "tex": "\\left ( \\begin{array}{r|r} \\left \\lvert x \\right | & 2 \\\\ 3 & 4 \\end{array} \\right )"
     },
     {
         "input": "[(x,1,2,|,3),(3,2,1,|,4)]",
@@ -1891,27 +1961,27 @@ const unittests = [
     },
     {
         "input": "lim_(h->0)(f(x+h)-f(x))/h",
-        "tex": "\\lim_{h \\to 0} \\frac{f{\\left( x + h \\right )} - f{\\left( x \\right )}}{h}",
+        "tex": "\\lim_{h \\to 0} \\frac{f{\\left ( x + h \\right )} - f{\\left ( x \\right )}}{h}",
         "mathml": "<munder><mo>lim</mo><mrow><mi>h</mi><mo>→</mo><mn>0</mn></mrow></munder><mfrac><mrow><mrow><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>)</mo></mrow></mrow><mo>-</mo><mrow><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow></mrow><mi>h</mi></mfrac>"
     },
     {
         "input": "sin^-1(x)",
-        "tex": "\\sin^{- 1}{\\left( x \\right )}",
+        "tex": "\\sin^{- 1}{\\left ( x \\right )}",
         "mathml": "<mrow><msup><mo>sin</mo><mrow><mo>-</mo><mn>1</mn></mrow></msup><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow>"
     },
     {
         "input": "f(x)=sum_(n=0)^oo(f^((n))(a))/(n!)(x-a)^n",
-        "tex": "f{\\left( x \\right )} = \\sum_{n = 0}^{\\infty} \\frac{f^{\\left( n \\right )}{\\left( a \\right )}}{n !} \\left( x - a \\right )^{n}",
+        "tex": "f{\\left ( x \\right )} = \\sum_{n = 0}^{\\infty} \\frac{f^{\\left ( n \\right )}{\\left ( a \\right )}}{n !} \\left ( x - a \\right )^{n}",
         "mathml": "<mrow><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mo>∞</mo></munderover></mrow><mfrac><mrow><mrow><msup><mi>f</mi><mrow><mrow><mo>(</mo><mi>n</mi><mo>)</mo></mrow></mrow></msup><mrow><mo>(</mo><mi>a</mi><mo>)</mo></mrow></mrow></mrow><mrow><mi>n</mi><mo>!</mo></mrow></mfrac><msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><mi>a</mi><mo>)</mo></mrow><mi>n</mi></msup>"
     },
     {
         "input": "f(x)=\\sum_{n=0}^\\infty\\frac{f^{(n)}(a)}{n!}(x-a)^n",
-        "tex": "f{\\left( x \\right )} = \\sum_{n = 0}^{\\infty} \\frac{f^{\\left( n \\right )}{\\left( a \\right )}}{n !} \\left( x - a \\right )^{n}",
+        "tex": "f{\\left ( x \\right )} = \\sum_{n = 0}^{\\infty} \\frac{f^{\\left ( n \\right )}{\\left ( a \\right )}}{n !} \\left ( x - a \\right )^{n}",
         "mathml": "<mrow><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>=</mo><mrow><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mo>∞</mo></munderover></mrow><mfrac><mrow><mrow><msup><mi>f</mi><mrow><mrow><mo>(</mo><mi>n</mi><mo>)</mo></mrow></mrow></msup><mrow><mo>(</mo><mi>a</mi><mo>)</mo></mrow></mrow></mrow><mrow><mi>n</mi><mo>!</mo></mrow></mfrac><msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><mi>a</mi><mo>)</mo></mrow><mi>n</mi></msup>"
     },
     {
         "input": "(a,b]={x in RR | a < x <= b}",
-        "tex": "\\left( a , b \\right ] = \\lbrace x \\in \\mathbb{R} | a < x \\le b \\rbrace",
+        "tex": "\\left ( a , b \\right ] = \\left \\lbrace x \\in \\mathbb{R} \\mid a < x \\le b \\right \\rbrace",
         "mathml": "<mrow><mo>(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo>]</mo></mrow><mo>=</mo><mrow><mo>{</mo><mi>x</mi><mo>∈</mo><mo>ℝ</mo><mrow><mo>∣</mo></mrow><mi>a</mi><mo>&lt;</mo><mi>x</mi><mo>≤</mo><mi>b</mi><mo>}</mo></mrow>"
     },
     {
@@ -1936,7 +2006,7 @@ const unittests = [
     },
     {
         "input": "(cancel((x+1))(x-2))/(cancel((x+1))(x+3))",
-        "tex": "\\frac{\\cancel{\\left( x + 1 \\right )} \\left( x - 2 \\right )}{\\cancel{\\left( x + 1 \\right )} \\left( x + 3 \\right )}",
+        "tex": "\\frac{\\cancel{\\left ( x + 1 \\right )} \\left ( x - 2 \\right )}{\\cancel{\\left ( x + 1 \\right )} \\left ( x + 3 \\right )}",
         "mathml": "<mfrac><mrow><menclose notation=\"updiagonalstrike\"><mrow><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow></mrow></menclose><mrow><mo>(</mo><mi>x</mi><mo>-</mo><mn>2</mn><mo>)</mo></mrow></mrow><mrow><menclose notation=\"updiagonalstrike\"><mrow><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow></mrow></menclose><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>3</mn><mo>)</mo></mrow></mrow></mfrac>"
     },
     {
@@ -1951,12 +2021,12 @@ const unittests = [
     },
     {
         "input": "log_2(x)/5",
-        "tex": "\\frac{\\log_{2}{\\left( x \\right )}}{5}",
+        "tex": "\\frac{\\log_{2}{\\left ( x \\right )}}{5}",
         "mathml": "<mfrac><mrow><msub><mo>log</mo><mn>2</mn></msub><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mn>5</mn></mfrac>"
     },
     {
         "input": "log_2(x)+5",
-        "tex": "\\log_{2}{\\left( x \\right )} + 5",
+        "tex": "\\log_{2}{\\left ( x \\right )} + 5",
         "mathml": "<mrow><msub><mo>log</mo><mn>2</mn></msub><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>+</mo><mn>5</mn>"
     },
     {
@@ -1966,7 +2036,7 @@ const unittests = [
     },
     {
         "input": "log_2^5(x)+5",
-        "tex": "\\log_{2}^{5}{\\left( x \\right )} + 5",
+        "tex": "\\log_{2}^{5}{\\left ( x \\right )} + 5",
         "mathml": "<mrow><mrow><msubsup><mo>log</mo><mn>2</mn><mn>5</mn></msubsup></mrow><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>+</mo><mn>5</mn>"
     },
     {
@@ -1976,12 +2046,12 @@ const unittests = [
     },
     {
         "input": "f_3(x)/5",
-        "tex": "\\frac{f_{3}{\\left( x \\right )}}{5}",
+        "tex": "\\frac{f_{3}{\\left ( x \\right )}}{5}",
         "mathml": "<mfrac><mrow><msub><mi>f</mi><mn>3</mn></msub><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mn>5</mn></mfrac>"
     },
     {
         "input": "2^(f_3(x)/5)",
-        "tex": "2^{\\frac{f_{3}{\\left( x \\right )}}{5}}",
+        "tex": "2^{\\frac{f_{3}{\\left ( x \\right )}}{5}}",
         "mathml": "<msup><mn>2</mn><mrow><mfrac><mrow><msub><mi>f</mi><mn>3</mn></msub><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mn>5</mn></mfrac></mrow></msup>"
     },
     {
@@ -1996,7 +2066,7 @@ const unittests = [
     },
     {
         "input": "sin^2(x)/5",
-        "tex": "\\frac{\\sin^{2}{\\left( x \\right )}}{5}",
+        "tex": "\\frac{\\sin^{2}{\\left ( x \\right )}}{5}",
         "mathml": "<mfrac><mrow><msup><mo>sin</mo><mn>2</mn></msup><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mn>5</mn></mfrac>"
     },
     {
@@ -2061,7 +2131,7 @@ const unittests = [
     },
     {
         "input": "vecx/hat3+vecx^2+(vec x)^2 + vec(x^2)",
-        "tex": "\\frac{\\vec{x}}{\\hat{3}} + \\vec{x}^{2} + \\left( \\vec{x} \\right )^{2} + \\vec{x^{2}}",
+        "tex": "\\frac{\\vec{x}}{\\hat{3}} + \\vec{x}^{2} + \\left ( \\vec{x} \\right )^{2} + \\vec{x^{2}}",
         "mathml": "<mfrac><mover><mi>x</mi><mo stretchy=\"false\">→</mo></mover><mover><mn>3</mn><mo>^</mo></mover></mfrac><mo>+</mo><msup><mover><mi>x</mi><mo stretchy=\"false\">→</mo></mover><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mover><mi>x</mi><mo stretchy=\"false\">→</mo></mover><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><mover><mrow><msup><mi>x</mi><mn>2</mn></msup></mrow><mo>→</mo></mover>"
     },
     {
@@ -2071,12 +2141,12 @@ const unittests = [
     },
     {
         "input": "(-3,-4)",
-        "tex": "\\left( - 3 , - 4 \\right )",
+        "tex": "\\left ( - 3 , - 4 \\right )",
         "mathml": "<mrow><mo>(</mo><mo>-</mo><mn>3</mn><mo>,</mo><mo>-</mo><mn>4</mn><mo>)</mo></mrow>"
     },
     {
         "input": "-(-2-4)-5",
-        "tex": "- \\left( - 2 - 4 \\right ) - 5",
+        "tex": "- \\left ( - 2 - 4 \\right ) - 5",
         "mathml": "<mo>-</mo><mrow><mo>(</mo><mo>-</mo><mn>2</mn><mo>-</mo><mn>4</mn><mo>)</mo></mrow><mo>-</mo><mn>5</mn>"
     },
     {
@@ -2111,27 +2181,27 @@ const unittests = [
     },
     {
         "input": "-(x+1)/-(x+3)",
-        "tex": "- \\frac{x + 1}{- \\left( x + 3 \\right )}",
+        "tex": "- \\frac{x + 1}{- \\left ( x + 3 \\right )}",
         "mathml": "<mo>-</mo><mfrac><mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mrow><mo>-</mo><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>3</mn><mo>)</mo></mrow></mrow></mfrac>"
     },
     {
         "input": "{:{:x:}:}",
-        "tex": "\\left. \\left. x \\right . \\right .",
+        "tex": "\\left . \\left . x \\right . \\right .",
         "mathml": "<mrow><mrow><mi>x</mi></mrow></mrow>"
     },
     {
         "input": "{:1+{:x:}+3:}",
-        "tex": "\\left. 1 + \\left. x \\right . + 3 \\right .",
+        "tex": "\\left . 1 + \\left . x \\right . + 3 \\right .",
         "mathml": "<mrow><mn>1</mn><mo>+</mo><mrow><mi>x</mi></mrow><mo>+</mo><mn>3</mn></mrow>"
     },
     {
         "input": "(:2,3]",
-        "tex": "\\left\\langle 2 , 3 \\right ]",
+        "tex": "\\left \\langle 2 , 3 \\right ]",
         "mathml": "<mrow><mo>〈</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>]</mo></mrow>"
     },
     {
         "input": "[2,3rangle",
-        "tex": "\\left[ 2 , 3 \\right \\rangle",
+        "tex": "\\left [ 2 , 3 \\right \\rangle",
         "mathml": "<mrow><mo>[</mo><mn>2</mn><mo>,</mo><mn>3</mn><mo>〉</mo></mrow>"
     },
     {
@@ -2141,7 +2211,7 @@ const unittests = [
     },
     {
         "input": "(2,3",
-        "tex": "\\left( 2 , 3 \\right.",
+        "tex": "\\left ( 2 , 3 \\right.",
         "mathml": "<mrow><mo>(</mo><mn>2</mn><mo>,</mo><mn>3</mn></mrow>"
     },
     {
@@ -2171,13 +2241,18 @@ const unittests = [
     },
     {
         "input": "lim_(x rarr 2^-) f(x)",
-        "tex": "\\lim_{x \\rightarrow 2^{-}} f{\\left( x \\right )}",
+        "tex": "\\lim_{x \\rightarrow 2^{-}} f{\\left ( x \\right )}",
         "mathml": "<munder><mo>lim</mo><mrow><mi>x</mi><mo>→</mo><msup><mn>2</mn><mo>-</mo></msup></mrow></munder><mrow><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow>"
     },
     {
         "input": "|(x,1),(2,3)|",
         "tex": "\\left \\lvert \\begin{matrix} x & 1 \\\\ 2 & 3 \\end{matrix} \\right \\rvert",
         "mathml": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow><mo>|</mo><mtable rowspacing=\"4pt\" columnspacing=\"1em\"><mtr><mtd><mi>x</mi></mtd><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd><mtd><mn>3</mn></mtd></mtr></mtable><mo>|</mo></mrow></math>"
+    },
+    {
+        "input": "P(B|A) = (P(A|B) * P(B))/(P(A))",
+        "tex": "P \\left ( B \\mid A \\right ) = \\frac{P \\left ( A \\mid B \\right ) \\cdot P \\left ( B \\right )}{P \\left ( A \\right )}",
+        "mathml": "<mi>P</mi><mrow><mo>(</mo><mi>B</mi><mo>&#x2223;</mo><mi>A</mi><mo>)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo>(</mo><mi>A</mi><mo>&#x2223;</mo><mi>B</mi><mo>)</mo></mrow><mo>&#x22C5;</mo><mi>P</mi><mrow><mo>(</mo><mi>B</mi><mo>)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo>(</mo><mi>A</mi><mo>)</mo></mrow></mrow></mfrac>"
     }
 ]
 
