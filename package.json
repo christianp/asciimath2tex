@@ -1,6 +1,6 @@
 {
   "name": "asciimath2tex",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Library to convert AsciiMath to TeX",
   "source": "asciimath2tex.js",
   "main": "dist/asciimath2tex.js",
