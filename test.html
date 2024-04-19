@@ -6,7 +6,6 @@
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx" crossorigin="anonymous"></script>
 
         <script src="test.js" type="module"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=MML_CHTML"></script>
         <style type="text/css">
             #tests {
                 font-family: monospace;
@@ -46,7 +45,7 @@
 
         <section>
             <p>These tests come from <a href="https://github.com/asciimath/asciimathml/blob/master/test/unittests.js">https://github.com/asciimath/asciimathml/blob/master/test/unittests.js</a>.</p>
-            <p>They confirm that the AsciiMath is parsed correctly and rendered using KaTeX, and then should be compared visually with MathJax's rendering of the expected MathML.</p>
+            <p>They confirm that the AsciiMath is parsed correctly and rendered using KaTeX, and then should be compared visually with the browser's rendering of the expected MathML.</p>
             <button type="button" id="run-tests">Run tests</button>
             <table id="tests">
                 <thead>

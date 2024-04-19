@@ -2300,7 +2300,6 @@ function run_tests() {
             tr.classList.add('failed');
         }
     });
-    MathJax.Hub.Queue(['Typeset',MathJax.Hub,tbody]);
     const ta = document.createElement('textarea');
     ta.value= 'const unittests = '+JSON.stringify(new_tests,null,'    ');
     document.body.appendChild(ta);
