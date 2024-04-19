@@ -622,7 +622,7 @@ export default class AsciiMathParser {
 
     // S ::= v | lEr | uS | bSS             Simple expression
     simple(pos = 0) {
-        return this.longest([this.matrix(pos), this.bracketed_expression(pos), this.binary(pos), this.constant(pos), this.text(pos), this.unary(pos), this.negative_simple(pos)]);
+        return this.longest([this.bracketed_matrix(pos), this.matrix(pos), this.bracketed_expression(pos), this.binary(pos), this.constant(pos), this.text(pos), this.unary(pos), this.negative_simple(pos)]);
     }
 
     negative_simple(pos = 0) {
@@ -635,6 +635,25 @@ export default class AsciiMathParser {
                 return {tex: '-', pos: pos, end: dash.end, ttype: 'constant'};
             }
         }
+    }
+
+    // a matrix wrapped in brackets
+    bracketed_matrix(pos = 0) {
+        const l = this.left_bracket(pos) || this.leftright_bracket(pos);
+        if(!l) {
+            return;
+        }
+        const matrix = this.longest([this.bracketed_matrix(l.end), this.matrix(l.end)]);
+        if(!matrix) {
+            return;
+        }
+        const r = this.right_bracket(matrix.end) || this.leftright_bracket(matrix.end, 'right');
+        if(r) {
+            return {tex: `\\left ${l.tex} ${matrix.tex} \\right ${r.tex}`, pos: pos, end: r.end, bracket: true, left: l, right: r, middle: matrix, ttype: 'bracket'};
+        } else if(this.eof(matrix.end)) {
+            return {tex: `\\left ${l.tex} ${matrix.tex} \\right.`, pos: pos, end: matrix.end, bracket: true, left: l, right: null, middle: matrix, ttype: 'bracket'};
+        }
+
     }
 
     // matrix: leftbracket "(" expr ")" ("," "(" expr ")")* rightbracket 

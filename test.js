@@ -2258,6 +2258,16 @@ const unittests = [
         "input": "x\\ y",
         "tex": "x \\, y",
         "mathml": "<mi>x</mi><mstyle scriptlevel=\"0\"><mspace width=\"thinmathspace\"></mspace></mstyle><mi>y</mi>"
+    },
+    {
+        "input": "([[x],[y]])",
+        "tex": "\left ( \left [ \begin{matrix} x \\ y \end{matrix} \right ] \right )",
+        "mathml": '<math title="([[x],[y]])"><mstyle mathcolor="blue" fontsize="1em" mathsize="1em" fontfamily="serif" mathvariant="serif" displaystyle="true"><mrow><mo>(</mo><mrow><mo>[</mo><mtable columnlines="none"><mtr><mtd><mi>x</mi></mtd></mtr><mtr><mtd><mi>y</mi></mtd></mtr></mtable><mo>]</mo></mrow><mo>)</mo></mrow></mstyle></math>'
+    },
+    {
+        "input": "([[a,b],[c,d]])",
+        "tex": "\left ( \left [ \begin{matrix} a & b \\ c & d \end{matrix} \right ] \right )",
+        "mathml": '<math title="([[a,b],[c,d]])"><mstyle mathcolor="blue" fontsize="1em" mathsize="1em" fontfamily="serif" mathvariant="serif" displaystyle="true"><mrow><mo>(</mo><mrow><mo>[</mo><mtable columnlines="none none"><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>c</mi></mtd><mtd><mi>d</mi></mtd></mtr></mtable><mo>]</mo></mrow><mo>)</mo></mrow></mstyle></math>'
     }
 ]
 
